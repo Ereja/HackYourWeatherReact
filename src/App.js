@@ -1,15 +1,15 @@
-import React from "react";
 import "./App.css";
-import Header from "./components/Header"
-import CityCard from "./components/cityCard"
+import Header from "./components/Header";
+import Input from "./components/Input";
 
-function App() {
+const App = () => {
+  
   return (
     <>
-      <Header title="Hack Your Weather"/>
-      <CityCard/>
+      <Header title="Hack Your Weather" />
+      <Input />
     </>
   );
-}
+};
 
 export default App;
