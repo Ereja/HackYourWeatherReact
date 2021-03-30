@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DefaultButton from "./DefaultButton";
 import CityCardList from "./CityCardList";
+import Loading from "./Loading";
 import Error from "./Error";
 import "./Input.css";
 
@@ -11,40 +12,47 @@ const Input = () => {
   const [weatherData, setWeatherData] = useState([]);
   //check for errors
   const [hasError, setError] = useState({ show: false });
-  //check if city card should be displayed(without this, card reapears after error)
-  const [showCard, setShowCityCard] = useState(true);
   //check for loading
   const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const errorTimer = setTimeout(() => {
+      setError({ show: false });
+    }, 3000);
+    return () => {
+      clearTimeout(errorTimer);
+    };
+  }, [hasError]);
 
   //if there is an error, display error message for 3sec
   const handleError = ({ errorMessage }) => {
     setError({ show: true, errorMessage });
-    setTimeout(() => {
-      setError({ show: false });
-      setShowCityCard(false);
-    }, 3000);
+  };
+
+  // remove city from array
+  const removeCity = (id, data) => {
+    const newCityList = weatherData.filter(city => city.id !== id);
+    data ? setWeatherData([data, ...newCityList]) : setWeatherData(newCityList);
   };
 
   const getWeather = async () => {
     try {
-      if (city) {
-        setLoading(true);
-        setShowCityCard(true);
-        const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}
+      setLoading(true);
+      //if fetch succesful, setting error to false will clear timeout
+      setError({ show: false });
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}
 `);
-        if (response.ok) {
-          //week2 asks for one city card
-          //for week3 to show all searches: setWeatherData([data, ...weatherData])
-          const data = await response.json();
-          setWeatherData([data]);
-        } else {
-          handleError({
-            errorMessage: "City not found! Please try another city.",
-          });
-        }
-      } else {
-        handleError({ errorMessage: "City name can`t be empty." });
+      if (!response.ok) {
+        handleError({
+          errorMessage: "City not found! Please try another city.",
+        });
       }
+      const data = await response.json();
+      //if city is already fetched, remove it from the list and re-add at the top of the list, instead of placing multiple cards with the same city
+      const cityAlreadyFound = weatherData.find(city => city.id === data.id);
+      cityAlreadyFound
+        ? removeCity(cityAlreadyFound.id, data)
+        : setWeatherData([data, ...weatherData]);
     } catch (err) {
       handleError({
         errorMessage: "Ooops, something went wrong! Please try again",
@@ -72,15 +80,15 @@ const Input = () => {
           placeholder="Enter a city name..."
           onChange={InputValue}
         />
-        <DefaultButton onClick={() => getWeather()} />
+        <DefaultButton onClick={() => getWeather()} disabled={!city} />
       </form>
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <Loading />}
 
       {hasError.show && <Error errorMessage={hasError.errorMessage} />}
 
-      {!isLoading && !hasError.show && showCard && (
-        <CityCardList cityWeather={weatherData} />
+      {weatherData && (
+        <CityCardList cityWeather={weatherData} removeCity={removeCity} />
       )}
     </div>
   );

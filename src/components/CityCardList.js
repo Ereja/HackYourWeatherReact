@@ -1,21 +1,25 @@
 import CityCard from "./CityCard";
 import "./CityCardList.css";
 
-const CityCardList = ({ cityWeather }) => {
+const CityCardList = ({ cityWeather, removeCity }) => {
   return (
     <div className="flex-container">
       {cityWeather.map(weatherData => {
+        const { id, name, sys, weather, main, coord } = weatherData;
         return (
           <CityCard
-            key={weatherData.id}
-            city={weatherData.name}
-            country={weatherData.sys.country}
-            weather={weatherData.weather[0].main}
-            description={weatherData.weather[0].description}
-            maxTemp={weatherData.main.temp_max}
-            minTemp={weatherData.main.temp_min}
-            lon={weatherData.coord.lon}
-            lat={weatherData.coord.lat}
+            removeCity={removeCity}
+            key={id}
+            id={id}
+            city={name}
+            country={sys.country}
+            weather={weather[0].main}
+            description={weather[0].description}
+            maxTemp={main.temp_max}
+            minTemp={main.temp_min}
+            lon={coord.lon}
+            lat={coord.lat}
+            icon={weather[0].icon}
           />
         );
       })}

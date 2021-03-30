@@ -1,12 +1,10 @@
 import "./DefaultButton.css";
 
-const DefaultButton = ({ onClick }) => {
+const DefaultButton = ({ onClick, disabled }) => {
   return (
-    <div>
-      <button type="submit" onClick={onClick}>
-        Get weather
-      </button>
-    </div>
+    <button className="get-weather" type="submit" onClick={onClick} disabled={disabled}>
+      Get weather
+    </button>
   );
 };
 
