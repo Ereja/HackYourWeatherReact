@@ -1,5 +1,7 @@
 Hack Your Weather project for React module
 
-Week1:
-1.Created React Components 2. Filled components with dummy data
-3.Styled the app
+Week4:
+
+1. Created custom fetch hook
+2. Created 5 days weather chart
+3. Added react-dom-router and created routes
