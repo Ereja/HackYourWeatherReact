@@ -1,14 +1,15 @@
+import { useContext } from "react";
+import { GlobalContext } from "./GlobalContext";
 import CityCard from "./CityCard";
 import "./CityCardList.css";
 
-const CityCardList = ({ cityWeather, removeCity }) => {
+const CityCardList = () => {
+  const { weatherData } = useContext(GlobalContext);
   return (
     <div className="flex-container">
-      {cityWeather.map(weatherData => {
-        const { id, name, sys, weather, main, coord } = weatherData;
+      {weatherData.map(({ id, name, sys, weather, main, coord }) => {
         return (
           <CityCard
-            removeCity={removeCity}
             key={id}
             id={id}
             city={name}

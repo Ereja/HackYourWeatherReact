@@ -1,12 +1,15 @@
 import "./App.css";
+import { GlobalContextProvider } from "./components/GlobalContext";
 import Header from "./components/Header";
-import Input from "./components/Input";
+import Routes from "./routes/Routes";
 
 const App = () => {
   return (
     <>
       <Header title="Hack Your Weather" />
-      <Input />
+      <GlobalContextProvider>
+        <Routes />
+      </GlobalContextProvider>
     </>
   );
 };

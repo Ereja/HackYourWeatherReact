@@ -1,4 +1,4 @@
-.get-weather{
+.weather-btn{
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -15,12 +15,12 @@
   text-transform: uppercase;
 }
 
-.get-weather:hover {
+.weather-btn:hover {
   color: #ffffff;
   background-color: rgba(0, 0, 0, 0.6);
   transition: all 0.4s ease 0s;
 }
 
-.get-weather:disabled {
+.weather-btn:disabled {
   cursor: not-allowed;
 }
