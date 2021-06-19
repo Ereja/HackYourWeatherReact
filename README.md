@@ -1,6 +1,6 @@
 # Hack Your Weather React APP
 <p align="center">
-  <img width="1200" height="944" src="https://user-images.githubusercontent.com/66121679/122644755-2a5b1f80-d117-11eb-8473-d26d90b0c292.jpg">
+  <img width="900" height="708" src="https://user-images.githubusercontent.com/66121679/122644755-2a5b1f80-d117-11eb-8473-d26d90b0c292.jpg">
 </p>
 Simple REACT application that displays current weather or 5 days weather graph of chosen cities.
 
